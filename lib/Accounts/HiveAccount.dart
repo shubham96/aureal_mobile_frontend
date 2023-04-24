@@ -75,13 +75,18 @@ class _HiveAccountState extends State<HiveAccount> {
     }
   }
 
+
+  final GlobalKey webviewkey = GlobalKey();
+  InAppWebViewController webViewController;
+
+
   @override
   void initState() {
     // TODO: implement initState
 
     super.initState();
     if (Platform.isAndroid) {
-      WebView.platform = SurfaceAndroidWebView();
+      // WebView.platform = SurfaceAndroidWebView();
     }
   }
 
@@ -200,6 +205,46 @@ class _HiveAccountState extends State<HiveAccount> {
         children: [
           SizedBox.expand(
             child: Center(
+              child: InAppWebView(
+                key: webviewkey,
+                  initialUrlRequest: URLRequest(url: Uri.parse('https://hivesigner.com/oauth2/authorize?client_id=aureal&redirect_uri=%3Dhttp%253A%252F%252Flocalhost%253A3000%26&response_type=code&scope=offline,comment,vote,comment_option,custom_json')),
+                onWebViewCreated: (controller) async {
+                  webViewController = controller;
+                  print(await controller.getUrl());
+                },
+                onLoadStart: (controller, url) async {
+                  SharedPreferences prefs =
+                      await SharedPreferences.getInstance();
+
+                  var uri = Uri.parse(url.toString());
+                  uri.queryParameters.forEach((key, value) {
+                    if (key == 'access_token' ||
+                        key == 'username' ||
+                        key == 'code') {
+                      if (key == 'username' &&
+                          prefs.getString('access_token') != null &&
+                          prefs.getString('code') != null) {
+                        prefs.setString('HiveUserName', value);
+
+                        print(prefs.getString('code'));
+
+// registerHiveUser();
+
+                      } else {
+                        prefs.setString('$key', value);
+                      }
+
+                      print(prefs.getString(key));
+                      if (prefs.getString('code') != null) {
+                        print(
+                            'this is the code motherfucker: ${prefs.getString('code')}');
+                      }
+                      hiveAuth();
+                    }
+                  });
+
+                },
+              ),
 //               child: InAppWebView(
 //                 gestureRecognizers: Set()
 //                   ..add(

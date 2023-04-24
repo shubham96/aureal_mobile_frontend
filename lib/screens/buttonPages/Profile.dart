@@ -1213,21 +1213,21 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                                         //         gestureRecognizers,
                                         //     initialFile:
                                         //         'https://wallet.hive.blog/@${prefs.getString('HiveUserName')}'),
-                                        child: WebView(
-                                          gestureRecognizers: Set()
-                                            ..add(
-                                              Factory<
-                                                  VerticalDragGestureRecognizer>(
-                                                () =>
-                                                    VerticalDragGestureRecognizer(),
-                                              ), // or null
-                                            ),
-                                          gestureNavigationEnabled: true,
-                                          javascriptMode:
-                                              JavascriptMode.unrestricted,
-                                          initialUrl:
-                                              'https://wallet.hive.blog/@${prefs.getString('HiveUserName')}',
-                                        ),
+                                        // child: WebView(
+                                        //   gestureRecognizers: Set()
+                                        //     ..add(
+                                        //       Factory<
+                                        //           VerticalDragGestureRecognizer>(
+                                        //         () =>
+                                        //             VerticalDragGestureRecognizer(),
+                                        //       ), // or null
+                                        //     ),
+                                        //   gestureNavigationEnabled: true,
+                                        //   javascriptMode:
+                                        //       JavascriptMode.unrestricted,
+                                        //   initialUrl:
+                                        //       'https://wallet.hive.blog/@${prefs.getString('HiveUserName')}',
+                                        // ),
                                       );
                                     });
                               },
